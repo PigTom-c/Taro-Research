@@ -1,3 +1,18 @@
+import Components from 'unplugin-vue-components/webpack';
+
+const NutUIResolver = () => {
+  return (name) => {
+    if (name.startsWith('Nut')) {
+      const partialName = name.slice(3);
+      return {
+        name: partialName,
+        from: '@nutui/nutui-taro',
+        sideEffects: `@nutui/nutui-taro/dist/packages/${partialName.toLowerCase()}/style`
+      }
+    }
+  }
+}
+
 const config = {
   projectName: 'f-alipay',
   date: '2023-5-8',
@@ -10,9 +25,12 @@ const config = {
   sourceRoot: 'src',
   outputRoot: 'dist',
   // 开启插件
-  plugins: [],
+  plugins: ['@tarojs/plugin-html'],
+  // plugins: [],
   // 配置全局 Scss 变量
-  sass: {},
+  sass: {
+    data: `@import "@nutui/nutui-taro/dist/styles/variables.scss";`
+  },
   defineConstants: {
   },
   copy: {
@@ -27,6 +45,11 @@ const config = {
     enable: false // Webpack 持久化缓存配置，建议开启。默认配置请参考：https://docs.taro.zone/docs/config-detail#cache
   },
   mini: {
+    webpackChain(chain) {
+      chain.plugin('unplugin-vue-components').use(Components({
+        resolvers: [NutUIResolver()]
+      }))
+    },
     postcss: {
       pxtransform: {
         enable: true,
@@ -50,6 +73,11 @@ const config = {
     }
   },
   h5: {
+    webpackChain(chain) {
+      chain.plugin('unplugin-vue-components').use(Components({
+        resolvers: [NutUIResolver()]
+      }))
+    },
     publicPath: '/',
     staticDirectory: 'static',
     postcss: {
