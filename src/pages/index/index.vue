@@ -1,35 +1,31 @@
 <template>
-  <view class="w-100" v-if="!isLink">
-    <button type="primary" class="w-200" plain :onTap="handleClick">请点击查询</button>
-<!--    <text>借了东西为什么不还</text>
-    <text>你的背包 让我走得好缓慢</text>-->
+  <view>
+    <image style="width: 100%; height: 100px" :src="namePng" :onTap="handleClick" />
   </view>
-  <web-view v-else src='https://www.baidu.com' />
+
+  <view>
+    <List />
+  </view>
+  <view class="mt-20" :onTap="handleClick">
+    <image style="width: 100%; height: 110px" :src="four" />
+  </view>
+  <Modal />
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+  import { ref, onMounted } from 'vue';
+  import './index.less';
+  import namePng from '../../../images/bg_top.png';
+  import four from '../../../images/four.png';
+  import List from '../../components/list/index';
+  import Taro from '@tarojs/taro';
+  import Modal from '../../components/modal/index';
 
-    const isLink = ref(false)
+  onMounted(() => {});
 
-    const handleClick = () => {
-      isLink.value = !isLink.value
-      console.log('click')
-      my.ap.openURL
-
-    }
-
-
+  const handleClick = () => {
+    //
+  };
 </script>
 
-<style>
- .w-100 {
-   display: flex;
-   justify-content: center;
-   flex-direction: column;
-   line-height: 50px;
- }
- .w-200 {
-   width: 200px;
- }
-</style>
+<style></style>
